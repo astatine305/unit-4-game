@@ -6,9 +6,9 @@ var wins = 0;
 var losses = 0;
 var crystals;
 
-//random number between 1 and 200
+//random number between 1 and 125
 function randNumber() {
-    return Math.floor(Math.random() * 200) + 1;
+    return Math.floor(Math.random() * 125) + 1;
 };
 var myCrystals = [
 {
@@ -28,62 +28,57 @@ var myCrystals = [
   points: Math.floor(Math.random() * 15) + 1
 },
 ];
-// console.log('this '+this.gem.points);
- console.log(myCrystals);
- console.log(myCrystals[1].points);
-
-// function randCrystal() {
-//   return {
-//     diamond: {
-//       points: Math.floor(Math.random() * 15) + 1
-//     },
-//     sapphire: {
-//       points: Math.floor(Math.random() * 15) + 1
-//     },
-//     ruby: {
-//       points: Math.floor(Math.random() * 15) + 1
-//     },
-//     emerald: {
-//       points: Math.floor(Math.random() * 15) + 1
-//     },
-//   };
-// }
-// console.log(randCrystal(diamond));
-// function updateYourNumber() {
-// }
 
 function startGame() {
 yourNumber = 0;
 randNumberBox = randNumber();
-// crystals = myCrystals();
 $("#randNumber").html(randNumberBox);
 $("#yourNumber").html(yourNumber);
-// $("#diamond").text(myCrystals[0].points);
-// $("#emerald").text(myCrystals[1].points);
-// $("#sapphire").text(myCrystals[2].points);
-// $("#ruby").text(myCrystals[3].points);
-
+$("#win").html(wins);
+$("#loss").html(losses);
 }
+// reset game 
+function resetGame() {
+yourNumber = 0;
+randNumberBox = randNumber();
+wins = 0;
+losses = 0;
+$("#randNumber").html(randNumberBox);
+$("#yourNumber").html(yourNumber);
+$("#win").html(wins);
+$("#loss").html(losses);
+};
+
 //update your number box
 function updateYourNumber() {
   $("#yourNumber").html(yourNumber);
 };
 
-
+//on click event
 $(".gem").click(function(){
   var index = $(this).attr("data-gem");
   yourNumber += myCrystals[index].points;
   $("yourNumber").html(yourNumber);
-  console.log('your number '+yourNumber);
-  console.log('data-gem '+myCrystals[index].points);
+
 updateYourNumber();
+if (yourNumber === randNumberBox) {
+  wins++;
+  $("#win").html(wins);
+  startGame();
+
+}
+else if (yourNumber > randNumberBox) {
+  losses++;
+  $("#loss").html(losses);
+  startGame();
+}
+else if (losses === 5 || wins === 5){
+  resetGame();
+}
 });
 
 
-function resetGame() {
-$("#wrapper").empty();
-}
-
 startGame();
+
 
 })
